@@ -1,0 +1,3 @@
+# database dump
+database/dump/*
+!database/dump/README.md

@@ -19,7 +19,7 @@ aboyuma/                                 # Project workspace
 ├── aboyuma-wordpress/                   # WordPress development workspace
 │   ├── aboyuma-wp-docker-bitnami/       # Infrastructure (this project)
 │   ├── wordpress/                       # WordPress content (bind-mounted)
-│   └── migration/                       # Migration scripts / database backup
+│   └── migration/                       # WordPress files / database backup
 └── aboyuma-content/                     # WordPress content workspace
 ```
 

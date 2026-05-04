@@ -47,7 +47,7 @@ services:
 
   phpmyadmin:
     image: phpmyadmin:5.2.3-apache
-    container_name: aboyuma_wp_phpmyadmin
+    container_name: aboyuma_phpmyadmin
     restart: unless-stopped
 
     depends_on:

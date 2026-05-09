@@ -5,6 +5,7 @@ services:
     restart: unless-stopped
 
     environment:
+      # database credentials
       MARIADB_DATABASE: ${MARIADB_DATABASE}
       MARIADB_USER: ${MARIADB_USER}
       MARIADB_PASSWORD: ${MARIADB_PASSWORD}
@@ -12,6 +13,8 @@ services:
 
     volumes:
       - aboyuma_database_volume:/bitnami/mariadb
+
+      # initialize database from SQL dump
       - ./database/dump:/docker-entrypoint-initdb.d
 
     networks:
@@ -32,15 +35,27 @@ services:
       WORDPRESS_DATABASE_HOST: mariadb
       WORDPRESS_DATABASE_PORT_NUMBER: 3306
 
+      # WordPress credentials
       WORDPRESS_DATABASE_NAME: ${MARIADB_DATABASE}
       WORDPRESS_DATABASE_USER: ${MARIADB_USER}
       WORDPRESS_DATABASE_PASSWORD: ${MARIADB_PASSWORD}
-
-      WORDPRESS_SKIP_BOOTSTRAP: ${WORDPRESS_SKIP_BOOTSTRAP}
+      
+      # disable default WordPress setup and use preloaded data from migration
+      WORDPRESS_SKIP_BOOTSTRAP: yes
 
     volumes:
+      # persit WordPress data
       - ../wordpress:/bitnami/wordpress
+
+      # custom PHP/Apache config for local development
       - ./php/custom.ini:/opt/bitnami/php/etc/conf.d/custom.ini
+
+      # mount migration assets
+      - ../migration/wordpress_files:/migration/wordpress_files
+
+      # init WordPress content(themes, plugins, uploads)
+      # fix site url for migration
+      - ./scripts:/docker-entrypoint-init.d/
 
     networks:
       - wp_network

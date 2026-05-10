@@ -7,15 +7,15 @@
 
 <img src="assets/containers-preview.png" width="650"/>  
 
-**🐳 Lightweight WordPress sandbox for local plugin and theme development using Docker and the Bitnami stack.**  
-The purpose of this project is to simulate a local development environment closer to the AWS Lightsail WordPress Bitnami stack.
+**🐳 Lightweight WordPress sandbox for local plugin and theme development using Docker and the Bitnami stack.** 
+
+The goal is to provide a local environment that behaves more similarly to a production Bitnami-based WordPress deployments on VPS or EC2, especially for developers transitioning from XAMPP.
 
 > 📝 NOTE: This project is provided as a reference setup.  
 > Please rename the project, container names, database name, and environment variables as needed to match your own setup.
 
 References:  
-https://hub.docker.com/r/bitnami/wordpress  
-https://medium.com/@richardevcom/wordpress-development-environment-with-docker-ba52427bdd65
+https://hub.docker.com/r/bitnami/wordpress
 
 ## 🧩 Project Structure
 
@@ -107,7 +107,7 @@ This deletes the existing database volume and initializes a fresh database.
 
 ## 🔄 Migration Note
 
-This project supports WordPress migration for developers moving from [XAMPP](https://www.apachefriends.org/) to Docker.  
+This project supports WordPress migration for developers moving from XAMPP.  
 
 To restore your content from a backup or mirror your production environment locally,  
 place your WordPress files, including plugins, themes, and uploads, inside `../migration/wordpress_files/`

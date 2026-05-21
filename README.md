@@ -124,6 +124,69 @@ This fixes issues where some images stored via `wp_options` still use the old UR
 Assume your old site in XAMPP was located at `C:\xampp\htdocs\{old-site-name}`.  
 Your site URL may have been `http://localhost/{old-site-name}`.
 
+## ⚠️ Current Limitation
+
+The automatic site URL fixing is currently unstable and may not work correctly in some cases.
+
+The previous implementation was based on this StackExchange discussion
+
+```bash
+wp search-replace \
+  "$OLD_URL" \
+  "$NEW_URL" \
+  --all-tables \
+  --allow-root
+```
+
+However, this approach caused issues because it did not skip the `guid` column.
+Updating `guid` values is not recommended in WordPress migrations and may break certain references.
+
+This will be improved in a future update.
+
+For now:
+
+* Please remove or disable `02-wp-search-replace-url.sh`
+* Run the replacement manually instead
+* Perform replacements for both:
+
+  * `http://`
+  * `https://`
+
+---
+
+## Manual URL Replacement
+
+Inside your WordPress container:
+
+```bash
+docker exec -it <your_wordpress_container> bash
+```
+
+Then run:
+
+```bash
+wp search-replace OLD_URL NEW_URL --all-tables --skip-columns=guid --allow-root
+```
+
+Example:
+
+```bash
+wp search-replace \
+  "http://localhost/old-site-name" \
+  "http://localhost:8080" \
+  --all-tables \
+  --skip-columns=guid \
+  --allow-root
+```
+
+Then repeat for HTTPS if needed.
+
+This command safely handles serialized WordPress data
+(which is important for Customizer settings and plugin options).
+
 References:  
-https://developer.wordpress.org/advanced-administration/security/backup  
-https://wordpress.stackexchange.com/questions/269868/how-to-update-media-links-in-wordpress-after-migration
+- https://developer.wordpress.org/advanced-administration/security/backup
+- https://developer.wordpress.org/advanced-administration/upgrade/migrating/
+- https://wordpress.stackexchange.com/questions/269868/how-to-update-media-links-in-wordpress-after-migration
+
+
